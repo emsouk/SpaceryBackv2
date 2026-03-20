@@ -1,0 +1,2 @@
+[19-Mar-2026 13:16:02 UTC] 2026-03-19T13:16:02+00:00 [critical] Uncaught Error: Class "Symfony\Bundle\DebugBundle\DebugBundle" not found
+[19-Mar-2026 13:29:43 UTC] 2026-03-19T13:29:43+00:00 [critical] Uncaught Error: Class "Symfony\Bundle\DebugBundle\DebugBundle" not found

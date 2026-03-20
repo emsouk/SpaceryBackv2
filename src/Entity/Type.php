@@ -67,12 +67,16 @@ class Type
     public function removeLieux(Lieu $lieux): static
     {
         if ($this->lieux->removeElement($lieux)) {
-            // set the owning side to null (unless already changed)
             if ($lieux->getType() === $this) {
                 $lieux->setType(null);
             }
         }
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->nomType;   // ✅ bon nom de propriété
     }
 }
