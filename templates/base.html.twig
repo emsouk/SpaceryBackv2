@@ -2,16 +2,44 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}Bienvenue{% endblock %}</title>
+
         {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
         {% endblock %}
 
         {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
+            {{ importmap('app') }}
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <header class="site-header">
+            <div class="container header__inner">
+                <a class="brand" href="{{ path('app_home') }}">
+                    <span class="brand__mark">sf</span>
+                    <span class="brand__name">
+                        Spacery API
+                        <small>Local server</small>
+                    </span>
+                </a>
+
+                <nav class="nav" aria-label="Navigation principale">
+                    <a href="{{ path('app_home') }}">Accueil</a>
+                    <a href="{{ path('api_health') }}">Health</a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="container site-main">
+            {% block body %}{% endblock %}
+        </main>
+
+        <footer class="site-footer">
+            <div class="container footer__inner">
+                <span>© {{ "now"|date("Y") }} Spacery</span>
+                <span class="muted">API REST • JSON</span>
+            </div>
+        </footer>
     </body>
 </html>

@@ -1,0 +1,125 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Spacery API{% endblock %}
+
+{% block body %}
+    <section class="hero">
+        <div class="card">
+            <div class="card__body">
+                <h1>{{ titre|default('Spacery API') }}</h1>
+                <p class="lead">
+                    Point d’entrée développeur pour tester rapidement l’API (endpoints REST + statut de santé).
+                </p>
+
+                <div class="actions" role="group" aria-label="Actions rapides">
+                    <a class="btn btn--primary" href="{{ path('api_health') }}">Tester /api/health</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" id="health-card">
+            <div class="card__body status">
+                <div class="status__row">
+                    <strong>État du serveur</strong>
+                    <span class="badge" id="health-badge">
+                        <span class="dot" id="health-dot"></span>
+                        <span id="health-text">Vérification…</span>
+                    </span>
+                </div>
+
+                <p class="muted" style="margin: 0;">
+                    Cette carte appelle <code>/api/health</code> pour confirmer que l’API répond.
+                </p>
+
+                <details>
+                    <summary>Exemple cURL</summary>
+                    <pre><code>curl -s {{ app.request.schemeAndHttpHost ~ path('api_health') }} | jq</code></pre>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <section class="grid" aria-label="Endpoints principaux">
+	        <article class="card col-6">
+	            <div class="card__body">
+	                <h2>Lieux</h2>
+	                <p>Lecture des lieux (endpoints en lecture seule).</p>
+	                <ul class="endpoint-list">
+	                    <li class="endpoint"><span class="pill pill--get">GET</span><code>{{ path('api_lieu_list') }}</code></li>
+	                    <li class="endpoint"><span class="pill pill--get">GET</span><code>/api/lieux/{id}</code></li>
+	                </ul>
+	            </div>
+	        </article>
+
+	        <article class="card col-6">
+	            <div class="card__body">
+	                <h2>Parcours</h2>
+	                <p>Lecture des parcours (endpoints en lecture seule).</p>
+	                <ul class="endpoint-list">
+	                    <li class="endpoint"><span class="pill pill--get">GET</span><code>{{ path('api_parcours_list') }}</code></li>
+	                    <li class="endpoint"><span class="pill pill--get">GET</span><code>/api/parcours/{id}</code></li>
+	                </ul>
+	            </div>
+	        </article>
+
+	        <article class="card col-4">
+	            <div class="card__body">
+	                <h2>Types</h2>
+	                <p>Lecture des types (endpoints en lecture seule).</p>
+	                <ul class="endpoint-list">
+	                    <li class="endpoint"><span class="pill pill--get">GET</span><code>{{ path('api_type_list') }}</code></li>
+	                    <li class="endpoint"><span class="pill pill--get">GET</span><code>/api/types/{id}</code></li>
+	                </ul>
+	            </div>
+	        </article>
+
+	        <article class="card col-4">
+	            <div class="card__body">
+	                <h2>Rôles</h2>
+	                <p>Lecture des rôles (endpoints en lecture seule).</p>
+	                <ul class="endpoint-list">
+	                    <li class="endpoint"><span class="pill pill--get">GET</span><code>{{ path('api_role_list') }}</code></li>
+	                    <li class="endpoint"><span class="pill pill--get">GET</span><code>/api/roles/{id}</code></li>
+	                </ul>
+	            </div>
+	        </article>
+
+	        <article class="card col-4">
+	            <div class="card__body">
+	                <h2>Utilisateurs</h2>
+	                <p>Lecture des utilisateurs (endpoints en lecture seule).</p>
+	                <ul class="endpoint-list">
+	                    <li class="endpoint"><span class="pill pill--get">GET</span><code>{{ path('api_utilisateur_list') }}</code></li>
+	                    <li class="endpoint"><span class="pill pill--get">GET</span><code>/api/utilisateurs/{id}</code></li>
+	                </ul>
+	            </div>
+	        </article>
+	    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        (async () => {
+            const badge = document.getElementById('health-badge');
+            const dot = document.getElementById('health-dot');
+            const text = document.getElementById('health-text');
+
+            try {
+                const response = await fetch('{{ path('api_health') }}', { headers: { 'Accept': 'application/json' } });
+                const data = await response.json().catch(() => ({}));
+
+                if (response.ok && data && data.status === 'ok') {
+                    dot.classList.add('dot--ok');
+                    text.textContent = 'OK';
+                } else {
+                    dot.classList.add('dot--bad');
+                    text.textContent = 'Erreur';
+                }
+            } catch (e) {
+                dot.classList.add('dot--bad');
+                text.textContent = 'Hors ligne';
+            }
+        })();
+    </script>
+{% endblock %}
