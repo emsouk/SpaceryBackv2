@@ -1,4 +1,0 @@
-[19-Mar-2026 14:15:44 UTC] PHP Fatal error:  Uncaught Error: Class "EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController" not found in /home/dare1148/sites/api.derianstudio.com/spaceryAdmin/DashboardController.php:16
-Stack trace:
-#0 {main}
-  thrown in /home/dare1148/sites/api.derianstudio.com/spaceryAdmin/DashboardController.php on line 16
