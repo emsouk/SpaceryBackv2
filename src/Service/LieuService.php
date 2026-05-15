@@ -23,6 +23,16 @@ class LieuService
         return $this->lieuRepository->findAll();
     }
 
+    public function findByVille(string $ville): array
+    {
+        return $this->lieuRepository->findByVille($ville);
+    }
+
+    public function findByVilleLike(string $villeLike): array
+    {
+        return $this->lieuRepository->findByVilleLike($villeLike);
+    }
+
     public function findById(int $id): ?Lieu
     {
         return $this->lieuRepository->find($id);
@@ -85,7 +95,9 @@ class LieuService
         if (isset($data['image_lieu'])) $lieu->setImageLieu($data['image_lieu']);
         if (isset($data['site_web'])) $lieu->setSiteWeb($data['site_web']);
         if (isset($data['horaires'])) $lieu->setHoraires($data['horaires']);
-        if (isset($data['lat_long'])) $lieu->setLatLong($data['lat_long']);
+        if (isset($data['lat_long'])) $lieu->setLatLong((float) $data['lat_long']);
+        if (array_key_exists('latitude', $data)) $lieu->setLatitude($data['latitude'] !== null ? (float) $data['latitude'] : null);
+        if (array_key_exists('longitude', $data)) $lieu->setLongitude($data['longitude'] !== null ? (float) $data['longitude'] : null);
 
         // Gestion du type
         if (isset($data['type_id'])) {
@@ -106,6 +118,8 @@ public function serialize(Lieu $lieu, bool $detailed = false): array
         'ville' => $lieu->getVille(),
         'pays' => $lieu->getPays(),
         'payant' => $lieu->isPayant(),
+        'latitude' => $lieu->getLatitude(),
+        'longitude' => $lieu->getLongitude(),
         'image_lieu' => $lieu->getImageLieu() // ✅ toujours incluse
     ];
 

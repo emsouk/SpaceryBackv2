@@ -17,9 +17,19 @@ final class LieuController extends AbstractController
     ) {}
 
     #[Route('', name: 'list', methods: ['GET'])]
-    public function list(): JsonResponse
+    public function list(Request $request): JsonResponse
     {
-        $lieux = $this->lieuService->findAll();
+        $villeLike = trim((string) $request->query->get('ville_like', ''));
+        $ville = trim((string) $request->query->get('ville', ''));
+
+        if ($villeLike !== '') {
+            $lieux = $this->lieuService->findByVilleLike($villeLike);
+        } elseif ($ville !== '') {
+            $lieux = $this->lieuService->findByVille($ville);
+        } else {
+            $lieux = $this->lieuService->findAll();
+        }
+
         $data = array_map(fn($lieu) => $this->lieuService->serialize($lieu), $lieux);
 
         return $this->json($data);

@@ -16,6 +16,32 @@ class LieuRepository extends ServiceEntityRepository
         parent::__construct($registry, Lieu::class);
     }
 
+    /**
+     * @return Lieu[]
+     */
+    public function findByVille(string $ville): array
+    {
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.ville = :ville')
+            ->setParameter('ville', $ville)
+            ->orderBy('l.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return Lieu[]
+     */
+    public function findByVilleLike(string $villeLike): array
+    {
+        return $this->createQueryBuilder('l')
+            ->andWhere('LOWER(l.ville) LIKE LOWER(:pattern)')
+            ->setParameter('pattern', '%' . $villeLike . '%')
+            ->orderBy('l.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Lieu[] Returns an array of Lieu objects
     //     */

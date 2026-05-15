@@ -106,7 +106,9 @@ class ParcoursService
                 $lieux[] = [
                     'id' => $lieu->getId(),
                     'nom' => $lieu->getNom(),
-                    'ville' => $lieu->getVille()
+                    'ville' => $lieu->getVille(),
+                    'latitude' => $lieu->getLatitude(),
+                    'longitude' => $lieu->getLongitude(),
                 ];
             }
             $data['lieux'] = $lieux;
