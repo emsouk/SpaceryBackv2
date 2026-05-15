@@ -18,3 +18,10 @@
 /public/assets/
 /assets/vendor/
 ###< symfony/asset-mapper ###
+
+###> local ###
+**/.DS_Store
+/.env.local.save
+/.env.local.save.*
+/.git.zip
+###< local ###
